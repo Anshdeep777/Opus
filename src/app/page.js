@@ -1,103 +1,122 @@
-import Image from "next/image";
+'use client'
+import { Lightbulb, TrendingUp, BarChart2, Menu, Sparkles, ArrowRight } from "lucide-react";
+import { useState } from "react";
+
+import { FaCircleNotch } from "react-icons/fa";
+import { RiGeminiFill } from "react-icons/ri";
+import { MessageSquareText } from 'lucide-react';
+import Link from "next/link";
+import Cards from "./components/Cards";
+import ChatInterface from "./components/ChatInterface";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  
+  const [tradeText, setTradeText] = useState("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleStockSelect = (tradeData) => {
+    setTradeText(tradeData);
+  } 
+  
+  const options = [
+    {
+      name: "Suggestions",
+      id: 1,
+      icon: <Lightbulb className="w-5 h-5 text-yellow-400" />,
+      bgColor: "bg-yellow-500/10",
+      borderColor: "border-yellow-500/20",
+      hoverBg: "hover:bg-yellow-500/15",
+    },
+    {
+      name: "Current Trade News",
+      id: 2,
+      icon: <TrendingUp className="w-5 h-5 text-green-400" />,
+      bgColor: "bg-green-500/10",
+      borderColor: "border-green-500/20",
+      hoverBg: "hover:bg-green-500/15",
+    },
+    {
+      name: "Generate Report",
+      id: 3,
+      icon: <BarChart2 className="w-5 h-5 text-blue-400" />,
+      bgColor: "bg-blue-500/10",
+      borderColor: "border-blue-500/20",
+      hoverBg: "hover:bg-blue-500/15",
+    },
+  ];
+
+  return (
+    <div className="w-full flex bg-black min-h-screen">
+      <div className="flex-1 relative min-h-[200vh]">
+        
+        {/* Subtle background effects */}
+        <div className="absolute top-0 right-1/3 w-[500px] h-[500px] bg-blue-500/3 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] bg-purple-500/3 rounded-full blur-[100px]"></div>
+
+        {/* Content container */}
+        <div className="relative z-10 max-w-6xl mx-auto px-8 py-8">
+          
+          {/* Header */}
+          <div className="flex items-center justify-between mb-20">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <RiGeminiFill className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-2xl font-bold text-white flex items-center gap-1">
+                <FaCircleNotch className="text-blue-400 w-5 h-5" />
+                <span className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">pus</span>
+              </h1>
+            </div>
+            <div className="text-sm text-gray-500 font-medium">
+              {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            </div>
+          </div>
+
+          {/* Welcome Section */}
+          <div className="mb-14">
+            <h1 className="text-5xl font-bold text-white mb-3 tracking-tight leading-tight">
+              Welcome, <span className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">Ansh</span>
+            </h1>
+            <p className="text-lg text-gray-400">
+              What would you like to explore today?
+            </p>
+          </div>
+
+          {/* Action Cards */}
+          <div className="grid grid-cols-3 gap-4 mb-12">
+            {options.map((item) => (
+              <button
+                key={item.id}
+                className={`
+                  relative overflow-hidden
+                  ${item.bgColor} ${item.hoverBg}
+                  backdrop-blur-sm rounded-xl p-5
+                  border ${item.borderColor}
+                  transition-all duration-200
+                  hover:scale-[1.02]
+                  text-left
+                  shadow-lg
+                `}
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-2.5 rounded-lg bg-white/5 backdrop-blur-sm flex-shrink-0">
+                    {item.icon}
+                  </div>
+                  <div className="flex-1 pt-0.5">
+                    <h3 className="text-base font-semibold text-white leading-snug">
+                      {item.name}
+                    </h3>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Cards and Chat Interface */}
+          <Cards onStockSelect={handleStockSelect} />
+          <ChatInterface initialMessage={tradeText} />
+
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
